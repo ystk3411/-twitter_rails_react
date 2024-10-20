@@ -10,7 +10,6 @@ function New() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [passwordConfirmation, setPasswordConfirmation] = useState("")
-  const [data, setData] = useState({})
   const params = {"name": name,
                   "email": email,
                   "password": password,
@@ -20,8 +19,6 @@ function New() {
   const test = async() => {
     try {
       const response = await axios.post('http://localhost:3000/api/v1/users',params)
-      setData(response)
-      console.log(response.data)
     } catch(error) {
       console.log(error)
     }
