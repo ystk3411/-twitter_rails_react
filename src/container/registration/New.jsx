@@ -1,33 +1,28 @@
-import { useState,useEffect } from 'react'
-import axios from 'axios'
+import { useState } from 'react'
 import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import instance from '../../axiosUtil.jsx'
 
 function New() {
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [passwordConfirmation, setPasswordConfirmation] = useState("")
-  const params = {"name": name,
-                  "email": email,
-                  "password": password,
-                  "password_confirmation": passwordConfirmation
+  const [user, setUser] = useState({name: "", email: "", password: "", password_confirmation:""})
+  const params = {"name": user.name,
+                  "email": user.email,
+                  "password": user.password,
+                  "password_confirmation": user.password_confirmation
                 }
-
-  const test = async() => {
+  const submitData = async() => {
     try {
-      const response = await axios.post('http://localhost:3000/api/v1/users',params)
+      console.log(instance)
+      const response = await instance.post('http://localhost:3000/api/v1/users',params)
     } catch(error) {
       console.log(error)
     }
-    // axios.post('http://localhost:3000/api/v1/users',params, {headers: headers}).then((res) => {
-    //   console.log(res.data)
-    //   return res.data
-    // }).catch(function(error){
-    //   console.log(error)
-    // })
+  }
+  const onChange = (e) => {
+    const {name, value} = e.target
+    setUser({...user, [name]: value})
   }
 
 
@@ -40,21 +35,21 @@ function New() {
         <Card>
           <Form.Group className="mb-3" controlId="formGridAddress1">
             <Form.Label>名前</Form.Label>
-            <Form.Control value={name} name="name" onChange={(e) => setName(e.target.value)} />
+            <Form.Control value={user.name} name="name" onChange={onChange} />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formGridAddress2">
             <Form.Label>Email</Form.Label>
-            <Form.Control placeholder="sample@sample.com" type="email" value={email} name="email" onChange={(e) => setEmail(e.target.value)} />
+            <Form.Control placeholder="sample@sample.com" type="email" value={user.email} name="email" onChange={onChange} />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formGridAddress3" >
             <Form.Label>パスワード</Form.Label>
-            <Form.Control type="password" value={password} name="password" onChange={(e) => setPassword(e.target.value)} />
+            <Form.Control type="password" value={user.password} name="password" onChange={onChange} />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formGridAddress4">
             <Form.Label>パスワード(確認用)</Form.Label>
-            <Form.Control type="password" value={passwordConfirmation} name="password_confirmation" onChange={(e) => setPasswordConfirmation(e.target.value)} />
+            <Form.Control type="password" value={user.password_confirmation} name="password_confirmation" onChange={onChange} />
           </Form.Group>
-          <Button variant="primary"  onClick={() => test()}>登録</Button>
+          <Button variant="primary"  onClick={() => submitData()}>登録</Button>
         </Card>
       </Form>
     </>
