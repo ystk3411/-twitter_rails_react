@@ -7,15 +7,9 @@ import instance from '../../axiosUtil.jsx'
 
 function New() {
   const [user, setUser] = useState({name: "", email: "", password: "", password_confirmation:""})
-  const params = {"name": user.name,
-                  "email": user.email,
-                  "password": user.password,
-                  "password_confirmation": user.password_confirmation
-                }
   const submitData = async() => {
     try {
-      console.log(instance)
-      const response = await instance.post('http://localhost:3000/api/v1/users',params)
+      const response = await instance.post('/users',user)
     } catch(error) {
       console.log(error)
     }
