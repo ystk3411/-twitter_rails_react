@@ -12,9 +12,7 @@ import {
 
 
 function App() {
-  console.log(Cookies.get("access-token"))
-  const isLogIn = Cookies.get("access-token") ? true : false
-  console.log(isLogIn)
+  const isLogIn = !!Cookies.get("access-token");
   return (
     <>
       <BrowserRouter>
