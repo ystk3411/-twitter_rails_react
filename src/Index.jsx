@@ -10,19 +10,10 @@ import {
 
 
 function Index() {
-  const [count, setCount] = useState(0)
-  // const test = () => {
-  //   axios.post('http://localhost:3000/api/v1/users').then((res) => {
-  //     return res.data
-  //   })
-  // }
-
-  // useEffect(() => {
-  //   console.log(test())
-  // })
-
+  const [count, setCount] = useState("")
   return (
     <>
+      Xクローン
     </>
   )
 }
