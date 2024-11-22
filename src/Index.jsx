@@ -5,7 +5,6 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import instance from './axiosUtil.jsx'
-import Cookies from 'js-cookie';
 import { FaXTwitter } from "react-icons/fa6";
 import { IoMdHome } from "react-icons/io";
 import { RiNotification2Fill } from "react-icons/ri";
@@ -22,30 +21,16 @@ function Index() {
   const formData = new FormData()
   const submitData = async() => {
     try {
-      // const data = await createFormData()
-      const response1 = await instance.post('/tweets',post,{
-        headers: {
-         "access-token": Cookies.get("accessToken"),
-         "client": Cookies.get("client"),
-         "uid": Cookies.get("uid"),
-        }
-       })
-
+      const response1 = await instance.post('/tweets',post)
+       
       if (!image) return
-      // console.log("response1:"+response1.data.id)
+
       const tweetId = response1.data.id
       const data = await createFormData()
       formData.append('id', tweetId)
-      const response2 = await instance.post('/image',data,{
-      headers: {
-        "access-token": Cookies.get("accessToken"),
-        "client": Cookies.get("client"),
-        "uid": Cookies.get("uid"),
-      }
-      })
+      const response2 = await instance.post('/image',data)
       setPost({content:""})
       setImage()
-      //  console.log("response1:"+response1.data.image)
     } catch(error) {
       console.log(error)
     }
