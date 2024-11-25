@@ -1,4 +1,3 @@
-import { useState,useEffect } from 'react'
 import './App.css'
 import New from  './container/registration/New.jsx'
 import Sign_in from  './container/session/Sign_in.jsx'
@@ -12,7 +11,8 @@ import {
 
 
 function App() {
-  const isLogIn = !!Cookies.get("access-token");
+  const isLogIn = !!Cookies.get("accessToken");
+
   return (
     <>
       <BrowserRouter>

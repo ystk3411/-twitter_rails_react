@@ -12,9 +12,8 @@ function Sign_in() {
   const navigate = useNavigate();
   const submitData = async() => {
     try {
-      // const params = {api_v1_user:{email: user.email, password: user.password}}
       const response = await instance.post('/users/sign_in',user)
-      Cookies.set("access-token",response.headers["access-token"])
+      Cookies.set("accessToken",response.headers["access-token"])
       Cookies.set("client",response.headers["client"])
       Cookies.set("uid",response.headers["uid"])
       navigate("/")
