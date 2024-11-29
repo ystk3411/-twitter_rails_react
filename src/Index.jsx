@@ -1,9 +1,11 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import './App.css'
 import Header from './layouts/Header.jsx'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
+import Card from 'react-bootstrap/Card';
+import Pagination from 'react-bootstrap/Pagination';
 import instance from './axiosUtil.jsx'
 import { FaXTwitter } from "react-icons/fa6";
 import { IoMdHome } from "react-icons/io";
@@ -16,12 +18,28 @@ import { PiImageSquareFill } from "react-icons/pi";
 
 function Index() {
   const [post, setPost] = useState({content:""})
+  const [posts, setPosts] = useState([])
+  const [displayPost, setDisplayPost] = useState([])
   const [image, setImage] = useState()
+  const [selectPage, setSelectPage] = useState(1)
+  const [pageNum, setPageNum] = useState(1)
+  const [users, setUsers] = useState([])
   const inputRef = useRef(null);
   const formData = new FormData()
+
+  let items = [];
+  for (let number = 1; number <= pageNum; number++) {
+    items.push(
+      <Pagination.Item key={number} active={selectPage === number} onClick={() => setSelectPage(number)}>
+        {number}
+      </Pagination.Item>
+    );
+  }
+
   const submitData = async() => {
     try {
       const response1 = await instance.post('/tweets',post)
+      console.log(response1)
        
       if (!image) return
 
@@ -31,6 +49,21 @@ function Index() {
       const response2 = await instance.post('/image',data)
       setPost({content:""})
       setImage()
+    } catch(error) {
+      console.log(error)
+    }
+  }
+
+  const fetchTweets = async() => {
+    try {
+      const response1 = await instance.get('/tweets')
+      const response2 = await instance.post('/limit_tweets',{page:selectPage - 1})
+      const arrayPost = response1.data
+      const Num = Math.floor(arrayPost.length / 10)
+      setPosts(response2.data)
+      setUsers(response2.data)
+      setPageNum(Num)
+      console.log(posts)
     } catch(error) {
       console.log(error)
     }
@@ -55,6 +88,10 @@ function Index() {
     inputRef.current.click();
   }
 
+  useEffect(() => {
+    fetchTweets()
+  },[selectPage])
+
   return (
     <>
       <Header />
@@ -72,13 +109,28 @@ function Index() {
           <Form.Group className="mb-3" controlId="formGridAddress3" >
             <Form.Control value={post.content} name="tweet" onChange={onChange} placeholder="今どうしてる？" />
           </Form.Group>
-          <Button component="label" variant="outlined"  onClick={handleClick}>
-            <h4>
-              <PiImageSquareFill />
-            </h4>
-            <Form.Control type='file'  name="tweet" ref={inputRef} onChange={onChangeImage} hidden/>
-          </Button>
+          <div>
+            <Button component="label" variant="outlined"  onClick={handleClick}>
+              <h4>
+                <PiImageSquareFill />
+              </h4>
+              <Form.Control type='file'  name="tweet" ref={inputRef} onChange={onChangeImage} hidden/>
+            </Button>
           <Button className='postButton' variant="primary"  onClick={() => submitData()}>ポストする</Button>
+          </div>
+          <div className='tweets'>
+            <div>
+              {posts.map((tweet) => (
+                <>
+                  <Card>
+                    <div key={tweet.tweet.id}>{tweet.user.name}　{tweet.tweet.content}</div>
+                  </Card>
+                </>
+                
+              ))}
+            </div>
+            <Pagination>{items}</Pagination>
+          </div>
         </Form>
       </div>
     </>

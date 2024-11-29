@@ -13,7 +13,7 @@ function Header() {
     navigate('/session/sign_in')
   }
   return (
-    <Navbar expand="lg" className="header justify-content-between">
+    <Navbar expand="lg" className="header justify-content-between ">
       <Navbar.Brand href="/">Xクローン</Navbar.Brand>
       <Form>
         <Button className='postButton' variant={buttonColor}  onClick={() => handleView()}>{buttonText}</Button>
