@@ -1,4 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
+import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import './App.css'
 import Header from './layouts/Header.jsx'
 import Button from 'react-bootstrap/Button';
@@ -122,9 +124,11 @@ function Index() {
             <div>
               {posts.map((tweet) => (
                 <>
-                  <Card>
-                    <div key={tweet.tweet.id}>{tweet.user.name}　{tweet.tweet.content}</div>
-                  </Card>
+                  <NavLink to={`tweet/${tweet.tweet.id}`}>
+                    <Card>
+                      <div key={tweet.tweet.id}>{tweet.user.name}　{tweet.tweet.content}</div>
+                    </Card>
+                  </NavLink>
                 </>
                 
               ))}
