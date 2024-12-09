@@ -19,22 +19,24 @@ import { PiImageSquareFill } from "react-icons/pi";
 function Index() {
   const [post, setPost] = useState({content:""})
   const [posts, setPosts] = useState([])
-  const [displayPost, setDisplayPost] = useState([])
   const [image, setImage] = useState()
   const [selectPage, setSelectPage] = useState(1)
   const [pageNum, setPageNum] = useState(1)
-  const [users, setUsers] = useState([])
   const inputRef = useRef(null);
   const formData = new FormData()
 
-  let items = [];
-  for (let number = 1; number <= pageNum; number++) {
-    items.push(
-      <Pagination.Item key={number} active={selectPage === number} onClick={() => setSelectPage(number)}>
+  let items = Array.from({ length: pageNum }, (_, index) => {
+    const number = index + 1
+    return (
+      <Pagination.Item
+        key={number}
+        active={selectPage === number}
+        onClick={() => setSelectPage(number)}
+      >
         {number}
       </Pagination.Item>
     );
-  }
+  })
 
   const submitData = async() => {
     try {
@@ -56,14 +58,11 @@ function Index() {
 
   const fetchTweets = async() => {
     try {
-      const response1 = await instance.get('/tweets')
-      const response2 = await instance.post('/limit_tweets',{page:selectPage - 1})
-      const arrayPost = response1.data
-      const Num = Math.floor(arrayPost.length / 10)
-      setPosts(response2.data)
-      setUsers(response2.data)
-      setPageNum(Num)
-      console.log(posts)
+      const response = await instance.get('/tweets', {params:{page:selectPage - 1}})
+      const arrayPost = response.data.tweets
+      const num = Math.floor(arrayPost.length / 10)
+      setPosts(response.data.tweets_limit)
+      setPageNum(num)
     } catch(error) {
       console.log(error)
     }
@@ -78,7 +77,6 @@ function Index() {
   }
 
   const createFormData = () => {     
-    // const formData = new FormData()
     if (!image) return                    
     formData.append('tweet[image]', image)
     return formData
@@ -121,12 +119,9 @@ function Index() {
           <div className='tweets'>
             <div>
               {posts.map((tweet) => (
-                <>
-                  <Card>
-                    <div key={tweet.tweet.id}>{tweet.user.name}　{tweet.tweet.content}</div>
-                  </Card>
-                </>
-                
+                <Card>
+                  <div key={tweet.tweet.id}>{tweet.user.name}　{tweet.tweet.content}</div>
+                </Card>
               ))}
             </div>
             <Pagination>{items}</Pagination>
