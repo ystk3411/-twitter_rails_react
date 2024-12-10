@@ -21,7 +21,7 @@ function Index() {
   const [posts, setPosts] = useState([])
   const [image, setImage] = useState()
   const [selectPage, setSelectPage] = useState(1)
-  const [totalPage, setPageNum] = useState(1)
+  const [totalPage, setTotalPage] = useState(1)
   const inputRef = useRef(null);
   const formData = new FormData()
 
@@ -62,7 +62,7 @@ function Index() {
       const arrayPost = response.data.count
       const num = Math.floor(arrayPost / 10)
       setPosts(response.data.tweets)
-      setPageNum(num)
+      setTotalPage(num)
     } catch(error) {
       console.log(error)
     }
