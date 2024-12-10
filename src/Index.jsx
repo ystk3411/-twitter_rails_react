@@ -23,11 +23,11 @@ function Index() {
   const [posts, setPosts] = useState([])
   const [image, setImage] = useState()
   const [selectPage, setSelectPage] = useState(1)
-  const [pageNum, setPageNum] = useState(1)
+  const [totalPage, setTotalPage] = useState(1)
   const inputRef = useRef(null);
   const formData = new FormData()
 
-  let items = Array.from({ length: pageNum }, (_, index) => {
+  let items = Array.from({ length: totalPage }, (_, index) => {
     const number = index + 1
     return (
       <Pagination.Item
@@ -61,10 +61,10 @@ function Index() {
   const fetchTweets = async() => {
     try {
       const response = await instance.get('/tweets', {params:{page:selectPage - 1}})
-      const arrayPost = response.data.tweets
-      const num = Math.floor(arrayPost.length / 10)
-      setPosts(response.data.tweets_limit)
-      setPageNum(num)
+      const arrayPost = response.data.count
+      const num = Math.floor(arrayPost / 10)
+      setPosts(response.data.tweets)
+      setTotalPage(num)
     } catch(error) {
       console.log(error)
     }
