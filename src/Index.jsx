@@ -72,7 +72,6 @@ function Index() {
   }
 
   const createFormData = () => {     
-    // const formData = new FormData()
     if (!image) return                    
     formData.append('tweet[image]', image)
     return formData
@@ -114,7 +113,9 @@ function Index() {
                     </Card>
                   </NavLink>
                 </>
-                
+                <Card>
+                  <div key={tweet.tweet.id}>{tweet.user.name}　{tweet.tweet.content}</div>
+                </Card>
               ))}
             </div>
             <Pagination>{items}</Pagination>
