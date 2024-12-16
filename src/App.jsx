@@ -2,6 +2,7 @@ import './App.css'
 import New from  './container/registration/New.jsx'
 import Sign_in from  './container/session/Sign_in.jsx'
 import Index from './Index.jsx'
+import Show from './Show.jsx'
 import Cookies from 'js-cookie';
 import {
   BrowserRouter,
@@ -17,7 +18,9 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={isLogIn ? <Index /> : <Sign_in />}/>
+          <Route path="/tweets" element={isLogIn ? <Index /> : <Sign_in />}/>
+          <Route path="tweets/tweet/:id" element={isLogIn ? <Show /> : <Sign_in />}/>
+          <Route/>
           <Route path="registration/new" element={<New />}/>
           <Route path="session/sign_in" element={<Sign_in />}/>
         </Routes>

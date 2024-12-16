@@ -14,7 +14,7 @@ function Header() {
   }
   return (
     <Navbar expand="lg" className="header justify-content-between ">
-      <Navbar.Brand href="/">Xクローン</Navbar.Brand>
+      <Navbar.Brand href="/tweets">Xクローン</Navbar.Brand>
       <Form>
         <Button className='postButton' variant={buttonColor}  onClick={() => handleView()}>{buttonText}</Button>
       </Form>
