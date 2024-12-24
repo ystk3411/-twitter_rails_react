@@ -66,3 +66,11 @@ body {
 .pagination {
   margin-top: 20px;
 }
+
+.icon {
+  margin-top: -25%;
+}
+
+.modal-body {
+  width: 100%;
+}
