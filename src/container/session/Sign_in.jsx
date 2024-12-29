@@ -16,7 +16,8 @@ function Sign_in() {
       Cookies.set("accessToken",response.headers["access-token"])
       Cookies.set("client",response.headers["client"])
       Cookies.set("uid",response.headers["uid"])
-      navigate("/")
+      Cookies.set("id",response.data.data.id)
+      navigate("/tweets")
     } catch(error) {
       console.log(error)
     }

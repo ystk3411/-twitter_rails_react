@@ -1,11 +1,10 @@
 import { useState, useRef, useEffect } from 'react'
-import { NavLink } from 'react-router-dom';
 import './App.css'
 import Header from './layouts/Header.jsx'
 import Sidebar from './layouts/Sidebar.jsx'
+import Tweets from './layouts/Tweets.jsx'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import Card from 'react-bootstrap/Card';
 import Pagination from 'react-bootstrap/Pagination';
 import instance from './axiosUtil.jsx'
 import { PiImageSquareFill } from "react-icons/pi";
@@ -35,7 +34,7 @@ function Index() {
   const submitData = async() => {
     try {
       const response1 = await instance.post('/tweets',post)
-      console.log(response1)
+      setPost({content:""})
        
       if (!image) return
 
@@ -43,7 +42,6 @@ function Index() {
       const data = await createFormData()
       formData.append('id', tweetId)
       const response2 = await instance.post('/image',data)
-      setPost({content:""})
       setImage()
     } catch(error) {
       console.log(error)
@@ -83,7 +81,7 @@ function Index() {
 
   useEffect(() => {
     fetchTweets()
-  },[selectPage])
+  },[selectPage, post])
 
   return (
     <>
@@ -107,15 +105,8 @@ function Index() {
             <div>
               {posts.map((tweet) => (
                 <>
-                  <NavLink to={`tweet/${tweet.tweet.id}`}>
-                    <Card>
-                      <div key={tweet.tweet.id}>{tweet.user.name}　{tweet.tweet.content}</div>
-                    </Card>
-                  </NavLink>
+                  <Tweets tweet={tweet.tweet} user={tweet.user}/>
                 </>
-                <Card>
-                  <div key={tweet.tweet.id}>{tweet.user.name}　{tweet.tweet.content}</div>
-                </Card>
               ))}
             </div>
             <Pagination>{items}</Pagination>
