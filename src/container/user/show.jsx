@@ -5,11 +5,9 @@ import '../../App.css'
 import instance from '../../axiosUtil.jsx'
 import Header from '../../layouts/Header.jsx'
 import Sidebar from '../../layouts/Sidebar.jsx'
+import ModalComp from '../../layouts/Modal.jsx'
 import Tweets from '../../layouts/Tweets.jsx'
 import alt from '../../assets/twitter_logo.jpg'
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import Form from 'react-bootstrap/Form';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Spinner from 'react-bootstrap/Spinner';
@@ -21,9 +19,7 @@ function Show() {
   const [tweets, setTweets] = useState([])
   const [user, setUser] = useState(null)
   const [image_url, setImageUrl] = useState(null)
-  const [profData, setProfData] = useState({name: undefined, profile: undefined, place: undefined, web_site: undefined, birth_day: undefined, header: undefined, thumbnail: undefined})
   const [modalShow, setModalShow] = useState(false);
-  const formData = new FormData()
 
   const fetchUser = async() => {
     try {
@@ -31,43 +27,9 @@ function Show() {
       setTweets(response.data.tweets)
       setUser(response.data.user)
       setImageUrl(response.data.image_urls)
-      console.log(response.data)
     } catch(error) {
       console.log(error)
     }
-  }
-
-  const submitData = async() => {
-    try {
-      const data = await createFormData()
-      const response = await instance.put(`/profile`, data);
-      setProfData("")
-      setModalShow(false);
-    } catch(error) {
-      console.log(error)
-    }
-  }
-
-  const createFormData = () => {        
-    for (var key in profData){
-      console.log(key);
-      if(profData[key] != undefined){
-        formData.append(`user[${key}]`, profData[key])
-      }
-    }
-    return formData
-  }
-
-  const onChange = (e) => {
-    const {name, value} = e.target
-    setProfData({...profData, [name]: value})
-  }
-
-  const onChangeImage = (e) => {
-    const selectedImage = e.target.files[0]
-    const name = e.target.name
-    setProfData({...profData,[name]:selectedImage})
-    console.log(profData)
   }
 
   const EditProfBtn = () => {
@@ -103,47 +65,7 @@ function Show() {
                 <div>
                   {Cookies.get("id") == user.id && <EditProfBtn />}
                 </div>
-                <Modal
-                show={modalShow}
-                onHide={() => setModalShow(false)}
-                size="lg"
-                aria-labelledby="contained-modal-title-vcenter"
-                centered
-                animation={false}
-              >
-                <Modal.Header closeButton>
-                  <Modal.Title id="contained-modal-title-vcenter">
-                    プロフィールを編集
-                  </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  <Form>  
-                    <div className='' style={{height:300}}>
-                      {image_url ? <img src={image_url.header} alt="画像" className='w-100 h-100'/> : <img src={alt} alt="画像" className='w-100 h-100'/>}
-                    </div>
-                    <div className='w-25' style={{height:150,marginTop: -100}}>
-                      {image_url ? <img src={image_url.thumbnail} alt="画像" className='rounded-circle border border-4 border-dark h-100' style={{width:150}}/> : <img src={alt} alt="画像" className='rounded-circle border border-4 border-dark w-100' />}
-                    </div>
-                    <Form.Label>名前</Form.Label>
-                    <Form.Control placeholder='名前' value={profData.name} name='name' onChange={onChange} />
-                    <Form.Label>自己紹介</Form.Label>
-                    <Form.Control placeholder='自己紹介' value={profData.comment} name='profile' onChange={onChange} />
-                    <Form.Label>場所</Form.Label>
-                    <Form.Control placeholder='場所' value={profData.place} name='place' onChange={onChange} />
-                    <Form.Label>ウェブサイト</Form.Label>
-                    <Form.Control placeholder='ウェブサイト' value={profData.web_site} name='web_site' onChange={onChange}  />
-                    <Form.Label>誕生日</Form.Label>
-                    <Form.Control  type='date' value={profData.birth_day} name='birth_day' onChange={onChange} />
-                    <Form.Label>ヘッダー</Form.Label>
-                    <Form.Control type='file'  name="header" onChange={onChangeImage} />
-                    <Form.Label>サムネイル</Form.Label>
-                    <Form.Control type='file'  name="thumbnail" onChange={onChangeImage} />
-                  </Form>
-                </Modal.Body>
-                <Modal.Footer>
-                  <Button onClick={() => submitData()}>保存</Button>
-                </Modal.Footer>
-              </Modal>
+                <ModalComp image_url={image_url} isShow={modalShow} setIsModal={setModalShow}/>
               </div>
               <div className='h4 mt-3'>{user.name}</div>
               <div>{user.profile}</div>
