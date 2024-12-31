@@ -32,18 +32,8 @@ body {
   border-top: solid #2F4858 1px;
 }
 
-.flex-column {
-  /* border-right:solid #2F4858 1px; */
-  /* position: fixed;
-  top: 0;
-  left: 0; */
-}
-
 .postForm {
-  display:flex;
-  flex-flow: column;
   margin: 20px auto;
-  text-align: center;
 }
 
 .container .postButton {
