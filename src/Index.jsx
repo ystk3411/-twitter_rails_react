@@ -122,7 +122,6 @@ function Index() {
               <div>
                 {posts.map((tweet) => (
                   <>
-                  {console.log(user_image)}
                     <Tweets tweet={tweet.tweet} user={tweet.user} image_user={tweet.image} user_image={user_image}/>
                   </>
                 ))}

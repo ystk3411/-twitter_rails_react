@@ -1,54 +1,8 @@
-import { useState, useRef } from 'react'
 import Modal from 'react-bootstrap/Modal';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
 import alt from '../assets/twitter_logo.jpg'
-import instance from '../axiosUtil.jsx'
-import { PiImageSquareFill } from "react-icons/pi";
+import CommentForm from './CommentForm.jsx'
 
 function ModalComment({user_image, tweet , isShow, setIsModal}) {
-  const inputRef = useRef(null);
-  const formData = new FormData()
-  const [post, setPost] = useState({content:"", tweet_id:""})
-  const [image, setImage] = useState()
-
-  const onChange = (e) => {
-    setPost({content:e.target.value})
-  }
-
-  const onChangeImage = (e) => {
-    const selectedImage = e.target.files[0]
-    setImage(selectedImage)
-  }
-
-  const createFormData = () => {     
-    if (!image) return                    
-    formData.append('tweet[image]', image)
-    return formData
-  }
-
-  const submitData = async() => {
-    try {
-      post.tweet_id = tweet.tweet.id
-      const response1 = await instance.post('/comments',post)
-      setPost({content:""})
-       
-      if (!image) return
-
-      const tweetId = response1.data.id
-      const data = await createFormData()
-      formData.append('id', tweetId)
-      const response2 = await instance.post('/image',data)
-      setImage()
-    } catch(error) {
-      console.log(error)
-    }
-  }
-
-  function handleClick() {
-    inputRef.current.click();
-  }
-
   return (
     <Modal
     show={isShow}
@@ -89,22 +43,12 @@ function ModalComment({user_image, tweet , isShow, setIsModal}) {
         <div>
           {user_image ? <img src={user_image} className='rounded-circle border border-2 border-dark' width={40}/> : <img src={alt} className='rounded-circle border border-2 border-dark' width={40}/>}
         </div>
-        <Form.Group className="w-100" controlId="formGridAddress3" >
-          <Form.Control value={post.content} name="tweet" as='textarea' onChange={onChange} placeholder="返信をポスト" />
-        </Form.Group>
-      </div>
-      <div className='d-flex justify-content-between mt-3'>
-        <Button component="label" variant="outlined"  onClick={handleClick}>
-          <h4>
-            <PiImageSquareFill />
-          </h4>
-          <Form.Control type='file'  name="tweet" ref={inputRef} onChange={onChangeImage} hidden/>
-        </Button>
-        <Button className='postButton' variant="primary" style={{"background-color": "#00acee" , "border-radius": "30px"}}  onClick={() => submitData()}>ポストする</Button>
-      </div>
+        <div className='w-100 p-2'>
+          <CommentForm tweet_id={tweet.tweet.id}/>
         </div>
+      </div>
+      </div>
       </Modal.Body>
-
     </Modal>
   )
 }

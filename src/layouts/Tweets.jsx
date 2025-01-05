@@ -25,20 +25,9 @@ function Tweets(tweet) {
     window.location.reload();
   }
 
-    
-  const onChange = (e) => {
-    setPost({content:e.target.value})
-  }
-
   const onChangeImage = (e) => {
     const selectedImage = e.target.files[0]
     setImage(selectedImage)
-  }
-
-  const createFormData = () => {     
-    if (!image) return                    
-    formData.append('tweet[image]', image)
-    return formData
   }
 
   function handleClick() {
@@ -67,14 +56,14 @@ function Tweets(tweet) {
                 </Dropdown.Menu>
               </Dropdown>
             </div>
-            <NavLink style={{textDecoration :'none'}} to={`/tweets/tweet/${tweet.tweet.id}`}>
+            <a style={{textDecoration :'none'}} href={`/tweets/tweet/${tweet.tweet.id}`}>
               <div className='w-100 text-dark'>
                 {tweet.tweet.content}
               </div>
               <div className='w-100'>
                 {tweet.tweet.image_url ? <img src={tweet.tweet.image_url} className='rounded-4 border border-1 w-100'></img> : null}
               </div>
-            </NavLink>
+            </a>
           </div>
         <div className='mt-3'>
           <div className='d-flex justify-content-between mt-3'>
@@ -86,9 +75,7 @@ function Tweets(tweet) {
               <span className='ms-2'>
                 0
               </span>
-              {tweet.user_image ? <ModalComment  isShow={modalShow} setIsModal={setModalShow} tweet={tweet} user_image={tweet.user_image}/> 
-              : 
-              <ModalComment  isShow={modalShow} setIsModal={setModalShow} tweet={tweet} user_image={alt}/>}
+              <ModalComment  isShow={modalShow} setIsModal={setModalShow} tweet={tweet} user_image={tweet.user_image}/>
             </div>
             <div>
               <Button component="label" variant="outlined"  onClick={handleClick}>
