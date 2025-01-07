@@ -7,7 +7,7 @@ import { PiImageSquareFill } from "react-icons/pi";
 function CommentForm({tweet_id}) {
   const inputRef = useRef(null);
   const formData = new FormData()
-  const [post, setPost] = useState({content:""})
+  const [post, setPost] = useState("")
   const [image, setImage] = useState()
   const comment_id = tweet_id
 
