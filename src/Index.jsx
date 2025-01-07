@@ -98,12 +98,12 @@ function Index() {
         <div className='w-50'>
           <Form className='postForm'>
             <div className='d-flex border-bottom p-2 gap-2'>
-              <Nav as="div">
-                <Nav.Link href={`user/${userId}`}>
+              <Nav>
+                <Nav.Link href={`/user/${userId}`}>
                 {user_image ? <img src={user_image} className='rounded-circle border border-2 border-dark' width={40}/> : <img src={alt} className='rounded-circle border border-2 border-dark' width={40}/>}
                 </Nav.Link>
               </Nav>
-              <div className='w-100'>
+              <div className='w-100 p-2'>
                 <Form.Group className="mb-3" controlId="formGridAddress3" >
                   <Form.Control value={post.content} name="tweet" onChange={onChange} placeholder="今どうしてる？" />
                 </Form.Group>
@@ -117,14 +117,12 @@ function Index() {
                   <Button className='postButton' variant="primary"  onClick={() => submitData()}>ポストする</Button>
                 </div>
               </div>
-
             </div>
-            
-            <div className='tweets'>
+            <div>
               <div>
                 {posts.map((tweet) => (
                   <>
-                    <Tweets tweet={tweet.tweet} user={tweet.user} image_user={tweet.image}/>
+                    <Tweets tweet={tweet.tweet} user={tweet.user} image_user={tweet.image} user_image={user_image}/>
                   </>
                 ))}
               </div>
