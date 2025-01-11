@@ -103,10 +103,16 @@ function Show() {
                   ))}
                 </div>
               </Tab>
-              <Tab eventKey="retweet" title="リポスト">
-                Tab content for Profile
+              <Tab eventKey="comment" title="コメント一覧">
+                <div>
+                  {tweets.map((tweet) => (
+                    <>
+                      {tweet.comment_id && <Tweets tweet={tweet} user={user}/>}
+                    </>
+                  ))}
+                </div>
               </Tab>
-              <Tab eventKey="comment" title="コメント" >
+              <Tab eventKey="retweet" title="リツイート" >
                 Tab content for Contact
               </Tab>
               <Tab eventKey="like" title="いいね" >

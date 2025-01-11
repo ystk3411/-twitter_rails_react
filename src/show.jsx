@@ -32,7 +32,7 @@ function Show() {
   const fetchTweet = async() => {
     try {
       const response1 = await instance.get(`tweets/${params.id}`, params.id);
-      const response2 = await instance.get(`tweets/${params.id}/comments`, {params:{id:params.id}});
+      const response2 = await instance.get(`comments`, {params:{id:params.id}});
       setTweet(response1.data.tweet)
       setUser(response1.data.user)
       setUserImage(response1.data.user_image)
