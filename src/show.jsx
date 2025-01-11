@@ -128,7 +128,7 @@ function Show() {
             <div>
               {comments.map((comment) => (
                     <>
-                      <Tweets tweet={comment.comment} user={comment.user} image_user={comment.thumbnail} user_image={user_image}/>
+                      <Tweets tweet={comment.comment} user={comment.user} image_user={comment.thumbnail} user_image={user_image} retweet_id={comment.retweet_id} count_retweet={comment.count_retweet}/>
                     </>
                   ))}
             </div>

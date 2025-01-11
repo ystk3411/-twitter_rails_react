@@ -17,12 +17,26 @@ import ModalComment from './ModalComment.jsx'
 
 function Tweets(tweet) {
   const [modalShow, setModalShow] = useState(false);
+  const [retweetId, setRetweetId] = useState(tweet.retweet_id)
+  const [countRetweet, setCountRetweet] = useState(tweet.count_retweet)
   const inputRef = useRef(null);
   const userId = Cookies.get("id");
 
   const onClickDelete = async(id) => {
     const response = await instance.delete(`/tweets/${id}`, id);
     window.location.reload();
+  }
+
+  const onClickRetweet = async(id) => {
+    if(retweetId == null) {
+      const response = await instance.post(`/tweets/${id}/retweets`, id);
+      setRetweetId(response.data.retweet.id)
+      setCountRetweet(response.data.count_retweets)
+    } else {
+      const response = await instance.delete(`/tweets/${id}/retweets/${retweetId}`, id);
+      setRetweetId(null)
+      setCountRetweet(response.data.count_retweets)
+    }
   }
 
   const onChangeImage = (e) => {
@@ -78,12 +92,11 @@ function Tweets(tweet) {
               <ModalComment  isShow={modalShow} setIsModal={setModalShow} tweet={tweet} user_image={tweet.user_image}/>
             </div>
             <div>
-              <Button component="label" variant="outlined"  onClick={handleClick}>
-                <CiRepeat />
-                <Form.Control type=''  name="tweet" ref={inputRef} onChange={onChangeImage} hidden/>
+              <Button component="label" variant="outlined"  onClick={() => onClickRetweet(tweet.tweet.id)}>
+                {retweetId ? <CiRepeat style={{color:"#20c997"}}/> : <CiRepeat/>}
               </Button>
               <span className='ms-2'>
-                0
+                {countRetweet}
               </span>
             </div>
             <div>
