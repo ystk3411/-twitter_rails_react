@@ -98,7 +98,7 @@ function Show() {
                 <div>
                   {tweets.map((tweet) => (
                     <>
-                      <Tweets tweet={tweet} user={user}/>
+                      <Tweets tweet={tweet.tweet} user={user} retweet_id={tweet.retweet_id} count_retweet={tweet.count_retweet}/>
                     </>
                   ))}
                 </div>
@@ -107,7 +107,7 @@ function Show() {
                 <div>
                   {tweets.map((tweet) => (
                     <>
-                      {tweet.comment_id && <Tweets tweet={tweet} user={user}/>}
+                      {tweet.tweet.comment_id && <Tweets tweet={tweet.tweet} user={user} retweet_id={tweet.retweet_id} count_retweet={tweet.count_retweet} />}
                     </>
                   ))}
                 </div>
