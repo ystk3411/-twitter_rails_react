@@ -18,7 +18,9 @@ import ModalComment from './ModalComment.jsx'
 function Tweets(tweet) {
   const [modalShow, setModalShow] = useState(false);
   const [retweetId, setRetweetId] = useState(tweet.retweet_id)
+  const [favoriteId, setFavoriteId] = useState(tweet.favorite_id)
   const [countRetweet, setCountRetweet] = useState(tweet.count_retweet)
+  const [countFavorite, setCountFavorite] = useState(tweet.count_favorite)
   const inputRef = useRef(null);
   const userId = Cookies.get("id");
 
@@ -36,6 +38,18 @@ function Tweets(tweet) {
       const response = await instance.delete(`/tweets/${id}/retweets/${retweetId}`, id);
       setRetweetId(null)
       setCountRetweet(response.data.count_retweets)
+    }
+  }
+
+  const onClickFavorite = async(id) => {
+    if(favoriteId == null) {
+      const response = await instance.post(`/tweets/${id}/favorites`, id);
+      setFavoriteId(response.data.favorite.id)
+      setCountFavorite(response.data.count_favorites)
+    } else {
+      const response = await instance.delete(`/tweets/${id}/favorites/${favoriteId}`, id);
+      setFavoriteId(null)
+      setCountFavorite(response.data.count_favorites)
     }
   }
 
@@ -100,12 +114,11 @@ function Tweets(tweet) {
               </span>
             </div>
             <div>
-              <Button component="label" variant="outlined"  onClick={handleClick}>
-                <CiHeart />
-                <Form.Control type=''  name="tweet" ref={inputRef} onChange={onChangeImage} hidden/>
+              <Button component="label" variant="outlined"  onClick={() => onClickFavorite(tweet.tweet.id)}>
+                {favoriteId ? <CiHeart style={{color:"#d63384"}}/> : <CiHeart/>}
               </Button>
               <span className='ms-2'>
-                0
+                {countFavorite}
               </span>
             </div>
             <div>
