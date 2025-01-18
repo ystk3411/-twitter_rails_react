@@ -21,6 +21,8 @@ function Show() {
   const [image_url, setImageUrl] = useState(null)
   const [modalShow, setModalShow] = useState(false);
   const [isFollow, setIsFollow] = useState(false)
+  const [countFollow, setCountFollow] = useState(null)
+  const [countFollowers, setCountFollowers] = useState(null)
 
   const fetchUser = async() => {
     try {
@@ -29,6 +31,8 @@ function Show() {
       setUser(response.data.user)
       setImageUrl(response.data.image_urls)
       setIsFollow(response.data.is_follow)
+      setCountFollow(response.data.count_follow)
+      setCountFollowers(response.data.count_followers)
     } catch(error) {
       console.log(error)
     }
@@ -95,7 +99,7 @@ function Show() {
               <div className='d-flex'>
                 <div className='me-3'>
                   <span>
-                    0
+                    {countFollow}
                   </span>
                   <span className='text-secondary'>
                     フォロー中
@@ -103,7 +107,7 @@ function Show() {
                 </div>
                 <div>
                   <span>
-                    0
+                    {countFollowers}
                   </span>
                   <span className='text-secondary'>
                     フォロワー
