@@ -20,6 +20,9 @@ function Show() {
   const [user, setUser] = useState(null)
   const [image_url, setImageUrl] = useState(null)
   const [modalShow, setModalShow] = useState(false);
+  const [isFollow, setIsFollow] = useState(false)
+  const [countFollow, setCountFollow] = useState(null)
+  const [countFollowers, setCountFollowers] = useState(null)
 
   const fetchUser = async() => {
     try {
@@ -27,6 +30,9 @@ function Show() {
       setTweets(response.data.tweets)
       setUser(response.data.user)
       setImageUrl(response.data.image_urls)
+      setIsFollow(response.data.is_follow)
+      setCountFollow(response.data.count_follow)
+      setCountFollowers(response.data.count_followers)
     } catch(error) {
       console.log(error)
     }
@@ -36,6 +42,27 @@ function Show() {
     return (
       <div className='btn btn-outline-dark' onClick={() => setModalShow(true)}>プロフィールを編集</div>
     );
+  }
+
+  const FollowBtn = () => {
+    if (isFollow ==true){
+      return (
+        <button className='btn btn-outline-danger' onClick={() => onclickFollow()}>フォロー解除</button>
+      );
+    } else {
+      return (
+        <button className='btn btn-outline-dark' onClick={onclickFollow}>フォロー</button>
+      );
+    }
+  }
+
+  const onclickFollow = async() => {
+    try {
+      const response = await instance.post(`/users/${params.id}/follow`, params.id);
+      console.log(response)
+    } catch(error) {
+      console.log(error)
+    }
   }
 
   useEffect(() => {
@@ -63,7 +90,7 @@ function Show() {
                   {image_url ? <img src={image_url.thumbnail} alt="画像" className='rounded-circle border border-4 border-dark h-100'  style={{width:150}}/> : <img src={alt} alt="画像" className='rounded-circle border border-4 border-dark h-100'/>}
                 </div>
                 <div>
-                  {Cookies.get("id") == user.id && <EditProfBtn />}
+                  {Cookies.get("id") == user.id ? <EditProfBtn /> : <FollowBtn />}
                 </div>
                 <ModalComp image_url={image_url} isShow={modalShow} setIsModal={setModalShow}/>
               </div>
@@ -72,7 +99,7 @@ function Show() {
               <div className='d-flex'>
                 <div className='me-3'>
                   <span>
-                    0
+                    {countFollow}
                   </span>
                   <span className='text-secondary'>
                     フォロー中
@@ -80,7 +107,7 @@ function Show() {
                 </div>
                 <div>
                   <span>
-                    0
+                    {countFollowers}
                   </span>
                   <span className='text-secondary'>
                     フォロワー
