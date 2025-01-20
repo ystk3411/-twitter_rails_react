@@ -47,11 +47,11 @@ function Show() {
   const FollowBtn = () => {
     if (isFollow ==true){
       return (
-        <div className='btn btn-outline-danger' onClick={() => onclickFollow()}>フォロー解除</div>
+        <button className='btn btn-outline-danger' onClick={() => onclickFollow()}>フォロー解除</button>
       );
     } else {
       return (
-        <div className='btn btn-outline-dark' onClick={() => onclickFollow()}>フォロー</div>
+        <button className='btn btn-outline-dark' onClick={onclickFollow}>フォロー</button>
       );
     }
   }
