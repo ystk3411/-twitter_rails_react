@@ -47,18 +47,33 @@ function Show() {
   const FollowBtn = () => {
     if (isFollow ==true){
       return (
-        <button className='btn btn-outline-danger' onClick={() => onclickFollow()}>フォロー解除</button>
+        <button className='btn btn-outline-danger' onClick={onClickUnfollow}>フォロー解除</button>
       );
     } else {
       return (
-        <button className='btn btn-outline-dark' onClick={onclickFollow}>フォロー</button>
+        <button className='btn btn-outline-dark' onClick={onClickFollow}>フォロー</button>
       );
     }
   }
 
-  const onclickFollow = async() => {
+  const onClickFollow = async() => {
     try {
       const response = await instance.post(`/users/${params.id}/follow`, params.id);
+      setIsFollow(response.data.is_follow)
+      setCountFollow(response.data.count_follow)
+      setCountFollowers(response.data.count_followers)
+      console.log(response)
+    } catch(error) {
+      console.log(error)
+    }
+  }
+
+  const onClickUnfollow = async() => {
+    try {
+      const response = await instance.delete(`/users/${params.id}/unfollow`, params.id);
+      setIsFollow(response.data.is_follow)
+      setCountFollow(response.data.count_follow)
+      setCountFollowers(response.data.count_followers)
       console.log(response)
     } catch(error) {
       console.log(error)
