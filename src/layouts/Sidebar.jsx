@@ -13,9 +13,9 @@ function Sidebar() {
   
   return (
     <Nav defaultActiveKey="/home" className="flex-column w-25 h-100 sticky-top">
-      <h4><Nav.Link href="/home"><FaXTwitter /></Nav.Link></h4>
-      <h4><Nav.Link href="/home"><IoMdHome />ホーム</Nav.Link></h4>
-      <h4><Nav.Link href="/home"><RiNotification2Fill />通知</Nav.Link></h4>
+      <h4><Nav.Link href="/tweets"><FaXTwitter /></Nav.Link></h4>
+      <h4><Nav.Link href="/tweets"><IoMdHome />ホーム</Nav.Link></h4>
+      <h4><Nav.Link href="/notifications"><RiNotification2Fill />通知</Nav.Link></h4>
       <h4><Nav.Link href="/home"><FaEnvelope />メッセージ</Nav.Link></h4>
       <h4><Nav.Link href="/home"><FaBookmark />ブックマーク</Nav.Link></h4>
       <h4><Nav.Link href={`user/${userId}`}><IoPerson />プロフィール</Nav.Link></h4>
