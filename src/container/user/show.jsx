@@ -12,6 +12,7 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Spinner from 'react-bootstrap/Spinner';
 import Cookies from 'js-cookie';
+import { FaRegEnvelope } from "react-icons/fa";
 
 function Show() {
   const navigate = useNavigate();
@@ -44,14 +45,26 @@ function Show() {
     );
   }
 
+  const MessageBtn = () => {
+    return (
+      <div className='btn btn-outline-dark me-2' onClick={() => onClickMessage()}><FaRegEnvelope /></div>
+    );
+  }
+
   const FollowBtn = () => {
     if (isFollow ==true){
       return (
-        <div className='btn btn-outline-danger' onClick={() => onClickUnfollow()}>フォロー解除</div>
+        <>
+          <MessageBtn />
+          <div className='btn btn-outline-danger' onClick={() => onClickUnfollow()}>フォロー解除</div>
+        </>
       );
     } else {
       return (
-        <div className='btn btn-outline-dark' onClick={() => onClickFollow()}>フォロー</div>
+        <>
+          <MessageBtn />
+          <div className='btn btn-outline-dark' onClick={() => onClickFollow()}>フォロー</div>
+        </>
       );
     }
   }
@@ -80,6 +93,16 @@ function Show() {
     }
   }
 
+  const onClickMessage = async() => {
+    try {
+      const response = await instance.post(`groups`, params);
+      navigate(`/messages`)
+      console.log(response)
+    } catch(error) {
+      console.log(error)
+    } 
+  }
+
   useEffect(() => {
     fetchUser()
   },[modalShow])
@@ -105,6 +128,7 @@ function Show() {
                   {image_url ? <img src={image_url.thumbnail} alt="画像" className='rounded-circle border border-4 border-dark h-100'  style={{width:150}}/> : <img src={alt} alt="画像" className='rounded-circle border border-4 border-dark h-100'/>}
                 </div>
                 <div>
+                  {/* <MessageBtn /> */}
                   {Cookies.get("id") == user.id ? <EditProfBtn /> : <FollowBtn />}
                 </div>
                 <ModalComp image_url={image_url} isShow={modalShow} setIsModal={setModalShow}/>

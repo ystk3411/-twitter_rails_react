@@ -45,7 +45,7 @@ body {
   color: black;
 }
 
-.container svg {
+.container .sticky-top svg {
   margin-right: 20px;
 }
 
