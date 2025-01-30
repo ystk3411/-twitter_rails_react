@@ -47,7 +47,7 @@ function Show() {
 
   const MessageBtn = () => {
     return (
-      <div className='btn btn-outline-dark me-2' onClick={() => onClickMessage()}><FaRegEnvelope /></div>
+      <div className='btn btn-outline-dark me-2' onClick={onClickMessage}><FaRegEnvelope /></div>
     );
   }
 
@@ -56,14 +56,14 @@ function Show() {
       return (
         <>
           <MessageBtn />
-          <div className='btn btn-outline-danger' onClick={() => onClickUnfollow()}>フォロー解除</div>
+          <div className='btn btn-outline-danger' onClick={onClickUnfollow}>フォロー解除</div>
         </>
       );
     } else {
       return (
         <>
           <MessageBtn />
-          <div className='btn btn-outline-dark' onClick={() => onClickFollow()}>フォロー</div>
+          <div className='btn btn-outline-dark' onClick={onClickFollow}>フォロー</div>
         </>
       );
     }

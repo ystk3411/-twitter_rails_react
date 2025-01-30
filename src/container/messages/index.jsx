@@ -32,11 +32,9 @@ function Index() {
             <h4 className='mt-4'>メッセージ</h4>
           </div>
           <div className='w-100 mt-3'>
-            {groups.map((group) => {
-              return (
+            {groups.map((group) => (
                 <Messages group={group} />
-              )
-            })}
+            ))}
           </div>
         </div>
       </div>

@@ -5,12 +5,12 @@ import instance from '../../axiosUtil.jsx'
 import Header from '../../layouts/Header.jsx'
 import Sidebar from '../../layouts/Sidebar.jsx'
 import Messages from '../../layouts/Messages.jsx'
+import Message from '../../layouts/Message.jsx'
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { PiImageSquareFill } from "react-icons/pi";
 import { BsCaretRight } from "react-icons/bs";
-import Cookies from 'js-cookie';
 
 function Show() {
   const [groups, setGroups] = useState([])
@@ -20,7 +20,6 @@ function Show() {
   const [image, setImage] = useState()
   const params = useParams();
   const inputRef = useRef(null);
-  const userId = Cookies.get("id");
   const formData = new FormData()
 
   const fetchUser = async() => {
@@ -72,33 +71,6 @@ function Show() {
     return formData
   }
 
-  const MessageComp = ({message}) => {
-    if(message.user_id == userId){
-      return(
-        <>
-          <div className='d-flex justify-content-end mb-3 mt-3'>
-            <div className='fs-5 p-3 bg-info' style={{'border-radius':'30px'}}>
-              {message.content}
-              {message.image_url ? <img src={message.image_url} className='rounded-4 border border-1 w-100'></img> : null}
-            </div>
-          </div>
-        </>
-      )
-    } else {
-      return(
-        <>
-          <div className='d-flex justify-content-start mb-3 mt-3'>
-            <div className='fs-5 p-3 bg-info bg-secondary bg-opacity-50' style={{'border-radius':'30px'}}>
-              {message.content}
-              {message.image_url ? <img src={message.image_url} className='rounded-4 border border-1 w-100'></img> : null}
-            </div>
-          </div>
-        </>
-      )
-      
-    }
-  }
-
   useEffect(() => {
     fetchUser()
   },[])
@@ -113,11 +85,9 @@ function Show() {
             <h4 className='mt-4'>メッセージ</h4>
           </div>
           <div className='w-100 mt-3'>
-            {groups.map((group) => {
-              return (
+              {groups.map((group) => (
                 <Messages group={group} />
-              )
-            })}
+              ))}
           </div>
         </div>
         <div className='d-flex flex-column w-50 vh-100'>
@@ -133,17 +103,17 @@ function Show() {
                 }
             </div>
             <div>
-              {anotherEntry.user && anotherEntry.user.name}
+              {anotherEntry.user?.name ?? ""}
             </div>
             <div className='mt-3'>
-              {anotherEntry.user && anotherEntry.user.profile}
+              {anotherEntry.user?.profile ?? ""}
             </div>
           </div>
           <div className='mt-3 h-100 overflow-auto'>
             <div className='mb-auto'>
               {messages.map((message) => {
                 return (
-                  <MessageComp message={message} />
+                  <Message message={message} />
                 )
               })}
             </div>
@@ -164,7 +134,7 @@ function Show() {
                 name='comment'
                 value={post.content}
               />
-              <Button variant="outline-secondary" id="button-addon2" onClick={() => submitData()}>
+              <Button variant="outline-secondary" id="button-addon2" onClick={submitData}>
                 <BsCaretRight />
               </Button>
             </InputGroup>
