@@ -5,7 +5,7 @@ import { RiNotification2Fill } from "react-icons/ri";
 import { FaEnvelope } from "react-icons/fa";
 import { FaBookmark } from "react-icons/fa";
 import { IoPerson } from "react-icons/io5";
-import { PiDotsThreeCircleFill } from "react-icons/pi";
+import { FaHeartBroken } from "react-icons/fa";
 import Cookies from 'js-cookie';
 
 function Sidebar() {
@@ -19,7 +19,7 @@ function Sidebar() {
       <h4><Nav.Link href="/messages"><FaEnvelope />メッセージ</Nav.Link></h4>
       <h4><Nav.Link href="/home"><FaBookmark />ブックマーク</Nav.Link></h4>
       <h4><Nav.Link href={`user/${userId}`}><IoPerson />プロフィール</Nav.Link></h4>
-      <h4><Nav.Link href="/home"><PiDotsThreeCircleFill />もっと見る</Nav.Link></h4>
+      {userId && <h4><Nav.Link href="/home"><FaHeartBroken />退会</Nav.Link></h4>}
     </Nav>
   )
 }
