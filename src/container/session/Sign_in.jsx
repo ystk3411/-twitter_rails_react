@@ -18,6 +18,7 @@ function Sign_in() {
       Cookies.set("uid",response.headers["uid"])
       Cookies.set("id",response.data.data.id)
       navigate("/tweets")
+      alert('ログインしました')
     } catch(error) {
       console.log(error)
     }
