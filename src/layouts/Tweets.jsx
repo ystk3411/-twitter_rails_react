@@ -10,6 +10,8 @@ import { CiHeart } from "react-icons/ci";
 import { IoStatsChart } from "react-icons/io5";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { FaRegTrashAlt } from "react-icons/fa";
+import { CiBookmark } from "react-icons/ci";
+import { FaBookmark } from "react-icons/fa";
 import alt from '../assets/twitter_logo.jpg'
 import Cookies from 'js-cookie';
 import instance from '../axiosUtil.jsx'
@@ -19,10 +21,12 @@ function Tweets(tweet) {
   const [modalShow, setModalShow] = useState(false);
   const [retweetId, setRetweetId] = useState(tweet.retweet_id)
   const [favoriteId, setFavoriteId] = useState(tweet.favorite_id)
+  const [bookmarkId, setBookmarkId] = useState(tweet.bookmark_id)
   const [countRetweet, setCountRetweet] = useState(tweet.count_retweet)
   const [countFavorite, setCountFavorite] = useState(tweet.count_favorite)
   const inputRef = useRef(null);
   const userId = Cookies.get("id");
+  console.log(tweet)
 
   const onClickDelete = async(id) => {
     const response = await instance.delete(`/tweets/${id}`, id);
@@ -50,6 +54,22 @@ function Tweets(tweet) {
       const response = await instance.delete(`/tweets/${id}/favorites/${favoriteId}`, id);
       setFavoriteId(null)
       setCountFavorite(response.data.count_favorites)
+    }
+  }
+
+  const onClickBookmark = async(id) => {
+    try {
+      if(bookmarkId == null) {
+        const response = await instance.post(`bookmarks`, {tweet_id:id});
+        setBookmarkId(response.data.id)
+        console.log(response.data)
+      } else {
+        const response = await instance.delete(`/bookmarks/${bookmarkId}`, id);
+        setBookmarkId(null)
+        console.log(response)
+      }
+    } catch {
+      console.log(error)
     }
   }
 
@@ -129,6 +149,12 @@ function Tweets(tweet) {
               <span className='ms-2'>
                 0
               </span>
+            </div>
+            <div>
+              <Button component="label" variant="outlined"  onClick={() => onClickBookmark(tweet.tweet.id)}>
+                
+                {bookmarkId ? <FaBookmark className='text-primary'/> : <CiBookmark />}
+              </Button>
             </div>
           </div>
         </div>
