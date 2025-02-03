@@ -5,6 +5,7 @@ import User_show from  './container/user/Show.jsx'
 import Notifications from  './container/notification/Index.jsx'
 import Messages from  './container/messages/Index.jsx'
 import Message from  './container/messages/Show.jsx'
+import Bookmarks from  './container/bookmarks/Index.jsx'
 import Index from './Index.jsx'
 import Show from './Show.jsx'
 import Cookies from 'js-cookie';
@@ -30,6 +31,7 @@ function App() {
           <Route path="notifications" element={<Notifications />}/>
           <Route path="messages" element={<Messages />}/>
           <Route path="messages/:id" element={<Message />}/>
+          <Route path="bookmarks" element={<Bookmarks />}/>
         </Routes>
       </BrowserRouter>
     </>

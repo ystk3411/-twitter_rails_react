@@ -27,9 +27,6 @@ function Sign_in() {
     setUser({...user, [name]: value})
   }
 
-
-
-
   return (
     <>
       <Form>

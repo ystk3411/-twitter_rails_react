@@ -121,7 +121,7 @@ function Index() {
               <div>
                 {posts.map((tweet) => (
                   <>
-                    <Tweets tweet={tweet.tweet} user={tweet.user} image_user={tweet.image} user_image={user_image} retweet_id={tweet.retweet_id} count_retweet={tweet.count_retweet} count_favorite={tweet.count_favorite}/>
+                    <Tweets tweet={tweet.tweet} user={tweet.user} image_user={tweet.image} user_image={user_image} retweet_id={tweet.retweet_id} favorite_id={tweet.favorite_id} bookmark_id={tweet.bookmark_id} count_retweet={tweet.count_retweet} count_favorite={tweet.count_favorite}/>
                   </>
                 ))}
               </div>
