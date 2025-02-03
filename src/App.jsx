@@ -14,6 +14,7 @@ import {
   Route,
   Routes
 } from "react-router-dom";
+import { Navigate } from 'react-router-dom';
 
 
 function App() {
@@ -23,15 +24,15 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/tweets" element={isLogIn ? <Index /> : <Sign_in />}/>
-          <Route path="tweets/tweet/:id" element={isLogIn ? <Show /> : <Sign_in />}/>
-          <Route path="user/:id" element={isLogIn ? <User_show /> : <Sign_in />}/>
+          <Route path="/tweets" element={isLogIn ? <Index /> : <Navigate to="/session/sign_in" replace />}/>
+          <Route path="tweets/tweet/:id" element={isLogIn ? <Show /> : <Navigate to="/session/sign_in" replace />}/>
+          <Route path="user/:id" element={isLogIn ? <User_show /> : <Navigate to="/session/sign_in" replace />}/>
           <Route path="registration/new" element={<New />}/>
           <Route path="session/sign_in" element={<Sign_in />}/>
-          <Route path="notifications" element={<Notifications />}/>
-          <Route path="messages" element={<Messages />}/>
-          <Route path="messages/:id" element={<Message />}/>
-          <Route path="bookmarks" element={<Bookmarks />}/>
+          <Route path="notifications" element={isLogIn ? <Notifications /> : <Navigate to="/session/sign_in" replace />}/>
+          <Route path="messages" element={isLogIn ? <Messages /> : <Navigate to="/session/sign_in" replace />}/>
+          <Route path="messages/:id" element={isLogIn ? <Message /> : <Navigate to="/session/sign_in" replace />}/>
+          <Route path="bookmarks" element={isLogIn ? <Bookmarks /> : <Navigate to="/session/sign_in" replace />}/>
         </Routes>
       </BrowserRouter>
     </>

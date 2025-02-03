@@ -20,6 +20,7 @@ function Header() {
       Cookies.remove("client")
       Cookies.remove("uid")
       navigate('/session/sign_in')
+      alert('ログアウトしました')
     } catch(error) {
       console.log(error)
     }
